@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
+import static com.kh.mvc.common.template.JDBCTemplate.*;
 import com.kh.mvc.model.dao.MemberDao;
 import com.kh.mvc.model.vo.Member;
 
@@ -43,9 +44,10 @@ public class MemberService {
 	}
 
 	public List<Member> selectAll() {
-		Connection conn = DriverManager
-				.getConnection("jdbc:oracle:thin:@localhost:1521:xe","JDBC","JDBC");
-		
+		Connection conn = getConnection();
+		List<Member> list = mDao.selectAll(conn);
+		close(conn);
+		return list;
 	}
 
 }
