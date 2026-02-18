@@ -37,4 +37,8 @@ public class Board {
 		
 	}
 
+	public String getCreateDate() {
+		return null;
+	}
+
 }

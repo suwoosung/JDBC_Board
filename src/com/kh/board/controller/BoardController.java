@@ -51,7 +51,7 @@ public class BoardController {
 	}
 
 	// view의 updateBoard요청을 담당할 메서드
-	public void updateBoard(int bNo, String title, String content) {
+	public int updateBoard(int bNo, String title, String content) {
 		Board b = new Board();
 		b.setBoardNo(bNo);
 		b.setBoardTitle(title);
@@ -61,7 +61,7 @@ public class BoardController {
 	}
 
 	// view의 deleteBoard요청을 담당할 메서드
-	public void deleteBoard(int bNo) {
+	public int deleteBoard(int bNo) {
 		return bs.deleteBoard(bNo);
 	}
 }
