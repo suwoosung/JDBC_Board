@@ -6,42 +6,34 @@ package com.kh.board.model.vo;
 public class Board {
 
 	public String getBoardNo() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public char[] getBoardContent() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String getBoardTitle() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String getBoardWriter() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void setBoardTitle(String title) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void setBoardContent(String content) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void setBoardWriter(String memberId) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void setBoardNo(int bNo) {
-		// TODO Auto-generated method stub
 		
 	}
 
