@@ -1,8 +1,15 @@
 package com.kh.board.view;
 
+import java.util.Scanner;
+
+import com.kh.board.controller.BoardController;
+import com.kh.board.model.vo.Board;
+
 public class BoardView {
 	// 입력을 위한 Scanner변수 선언 및 초기화
 	// 기능 실행을 위한 BoardController 변수 선언 및 초기화.
+	Scanner sc = new Scanner(System.in);
+	BoardController bc = new BoardController();
 	String memberId = null;
 	/**
 	 * 로그인 기능.
@@ -11,11 +18,25 @@ public class BoardView {
 	 * 로그인 성공시 memberId에 사용자의 id를 저장.
 	 *  */
 	public void login() {
-		System.out.println("### 게시판 서비스###");
-		System.out.println("서비스 이용을 위해 로그인을 진행해주세요.");
-		System.out.print("ID");
-		System.out.print("PWD");		
-		
+		while (true) {
+			System.out.println("### 게시판 서비스 ###");
+			System.out.println("서비스 이용을 위해 로그인을 진행해주세요.");
+			System.out.print("ID : ");
+			String id = sc.nextLine();
+			System.out.print("PWD : ");
+			String pwd = sc.nextLine();
+
+			int result = bc.login(id, pwd);
+
+			if (result > 0) {
+				System.out.println("로그인 성공!");
+				this.memberId = id;
+				mainMenu();
+				break;
+			} else {
+				System.out.println("로그인 실패. 다시 입력해주세요.");
+			}
+		}		
 	}
 	
 	/**
@@ -25,14 +46,28 @@ public class BoardView {
 	 *  */
 	public void mainMenu() {
 		
-		while(true) {
-			System.out.println("### 게시판 서비스 ###");
+		while (true) {
+			System.out.println("\n### 게시판 서비스 ###");
 			System.out.println("1. 게시판 목록 보기 ");
 			System.out.println("2. 게시판 상세보기");
 			System.out.println("3. 게시판 등록하기");
 			System.out.println("4. 게시판 수정하기");
-			System.out.println("5. 게시판 삭제하기");			
-			System.out.println("9. 끝");			
+			System.out.println("5. 게시판 삭제하기");
+			System.out.println("9. 끝");
+			System.out.print("메뉴 선택 : ");
+			
+			int choice = sc.nextInt();
+			sc.nextLine();
+
+			switch (choice) {
+			case 1: selectBoardList(); break;
+			case 2: selectBoard(); break;
+			case 3: insertBoard(); break;
+			case 4: updateBoard(); break;
+			case 5: deleteBoard(); break;
+			case 9: System.out.println("프로그램을 종료합니다."); return;
+			default: System.out.println("잘못된 번호입니다.");
+			}
 		}
 	}
 	/** 
@@ -42,6 +77,7 @@ public class BoardView {
 	 * */
 	public void selectBoardList() {
 		System.out.println("게시글 번호\t게시글 제목\t작성자\t작성시간");
+		bc.selectBoardList();
 	}
 	
 	/** 
@@ -50,11 +86,22 @@ public class BoardView {
 	 * 전달 받은 게시글정보를 출력하는 메소드.
 	 * 
 	 * */
-	public void selectBoard() {
+	public int selectBoard() {
 		
-		System.out.println("게시글 번호\t게시글 제목\t게시글 작성 날짜");
-		
-		System.out.println("게시글 내용");
+		System.out.print("조회할 게시글 번호 입력 : ");
+	    int bNo = sc.nextInt();
+	    sc.nextLine();
+
+	    Board b = bc.selectBoard(bNo);
+
+	    if (b != null) {
+	        System.out.println("게시글 번호\t게시글 제목\t게시글 작성 날짜");
+	        System.out.println(b.getBoardNo() + "\t" + b.getBoardTitle() + "\t" + b.getCreateDate());
+	        System.out.println("게시글 내용");
+	        System.out.println(b.getBoardContent());
+	    } else {
+	        System.out.println("해당 번호의 게시글이 존재하지 않습니다.");
+	    }
 	}
 	
 	/** 
@@ -62,7 +109,11 @@ public class BoardView {
 	 * 사용자로 하여금 게시글 제목과, 내용을 입력받아 게시글을 등록요청을 보내는 메소드
 	 * */
 	public void insertBoard() {
-		
+		System.out.print("제목 : ");
+		String title = sc.nextLine();
+		System.out.print("내용 : ");
+		String content = sc.nextLine();
+		bc.insertBoard(title, content, memberId);
 	}
 	
 	/** 
@@ -70,7 +121,14 @@ public class BoardView {
 	 * 사용자로 하여금 수정할 게시글 제목 번호과 내용을 입력받아 게시글 수정요청을 보내는 메소드
 	 * */
 	public void updateBoard() {
-		
+		System.out.print("수정할 게시글 번호 : ");
+		int bNo = sc.nextInt();
+		sc.nextLine();
+		System.out.print("수정할 제목 : ");
+		String title = sc.nextLine();
+		System.out.print("수정할 내용 : ");
+		String content = sc.nextLine();
+		bc.updateBoard(bNo, title, content);
 	}
 	
 	/** 
@@ -78,7 +136,10 @@ public class BoardView {
 	 * 사용자로 하여금 삭제할 게시글 번호를 입력받아 게시글 삭제 요청을 보내는 메소드
 	 * */
 	public void deleteBoard() {
-		
+		System.out.print("삭제할 게시글 번호 : ");
+		int bNo = sc.nextInt();
+		sc.nextLine();
+		bc.deleteBoard(bNo);
 	}
 	
 	
